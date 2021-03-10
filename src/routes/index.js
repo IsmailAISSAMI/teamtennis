@@ -6,15 +6,9 @@ const subscriptionsRouter = require('./subscriptions.route');
 const billsRouter = require('./bills.route');
 const employesRouter = require('./employes.route');
 
-const productsRouter = require('./products.route');
-const orderRouter = require('./order.route');
-
 router.use(usersRouter);
 router.use(subscriptionsRouter);
 router.use(billsRouter);
 router.use(employesRouter);
-
-router.use(productsRouter);
-router.use(orderRouter);
 
 module.exports = router;

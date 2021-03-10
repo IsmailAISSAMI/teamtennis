@@ -21,5 +21,4 @@ const userSchemaValidation = (req, res, next) => {
 
 }
 
-
 module.exports = userSchemaValidation;
