@@ -11,6 +11,7 @@ exports.create = (req, res) => {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
+    isAdmin: req.body.isAdmin,
     password: hashedPassword,
   });
 
@@ -45,8 +46,7 @@ exports.findOne = (req, res) => {
     .then((data) => {
       if (!data) {
         res.status(404).send({
-          message: `User with id ${req.params.id} not found`,
-          // message:"User with id" + req.params.id +"not found"
+          message: `User with id ${req.params.id} not found`
         });
       }
       res.send(data);

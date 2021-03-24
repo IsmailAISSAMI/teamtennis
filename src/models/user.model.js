@@ -23,6 +23,10 @@ const userSchema = new Schema({
         minlength: 4,
         unique: true
     },
+    isAdmin:{
+        type: Boolean,
+        default: false 
+    },
     subscriptions: [{
         type:Schema.Types.ObjectId, ref:'Subscription'
     }]
