@@ -35,19 +35,6 @@ exports.create = (req, res) => {
     });
 };
 
-exports.findOne = (req, res) => {
-  User.findById(req.params.id)
-    .populate('orders')
-    .then((data) => {
-      if (!data) {
-        res.status(404).send({
-          message: `User with id ${req.params.id} not found`
-        });
-      }
-      res.send(data);
-    })
-    .catch((err) => res.send(err));
-};
 
 exports.login = (req, res) => {
   User.findOne({
@@ -93,3 +80,40 @@ exports.login = (req, res) => {
       res.send(err);
     });
 };
+
+
+exports.findOne = (req, res) => {
+  User.findById(req.params.id)
+    .populate('orders')
+    .then((data) => {
+      if (!data) {
+        res.status(404).send({
+          message: `User with id ${req.params.id} not found`
+        });
+      }
+      res.send(data);
+    })
+    .catch((err) => res.send(err));
+};
+
+exports.update = async (req, res) => {
+  req.body.password = bcrypt.hashSync(req.body.password, 10);
+  const updates = Object.keys(req.body)
+  try{
+      const user = await User.findById(req.params.id)
+      updates.forEach((update)=>{
+        user[update] = req.body[update]
+      })
+      await user.save()
+
+      if(!user){
+          res.satatus(404).send({
+              message: `User with id ${req.params.id} not found!`})
+      }
+      res.send({
+          user 
+      })
+  } catch(err){
+      res.send(err)
+  }
+}
