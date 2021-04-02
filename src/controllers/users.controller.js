@@ -1,28 +1,23 @@
 const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const Joi = require('joi');
 
 exports.create = (req, res) => {
-
   let hashedPassword = bcrypt.hashSync(req.body.password, 10);
 
   const user = new User({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
+    username: req.body.username,
     email: req.body.email,
-    isAdmin: req.body.isAdmin,
     password: hashedPassword,
   });
 
-  user
-    .save()
+  user.save()
     .then((data) => {
       let userToken = jwt.sign(
         {
           id: data._id,
         },
-        'supersecret',
+        'mysupersecret',
         {
           expiresIn: 86400,
         }
@@ -35,7 +30,7 @@ exports.create = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         error: 500,
-        message: err.message || 'some error occured while creating user',
+        message: err.message || 'Some error occured while creating the User!'
       });
     });
 };
@@ -64,7 +59,7 @@ exports.login = (req, res) => {
         return res.status(404).send({
           auth: false,
           token: null,
-          message: `No user find with email ${req.body.email}`,
+          message: `your email or password is incorrect, try again`,
         });
       }
 
@@ -77,7 +72,7 @@ exports.login = (req, res) => {
         return res.status(401).send({
           auth: false,
           token: null,
-          message: 'password is not valid',
+          message: 'your email or password is incorrect, try again',
         });
       }
 
@@ -85,7 +80,7 @@ exports.login = (req, res) => {
         {
           id: data._id,
         },
-        'supersecret',
+        'mysupersecret',
         {expiresIn: 86400}
       );
 

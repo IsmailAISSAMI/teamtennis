@@ -1,35 +1,38 @@
 const mongoose = require('mongoose');
+const moment = require('moment')
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    lastName: {
+    // Account informations
+    username: {
         type: String,
-        required: true,
-        lowercase: true
-    },
-    firstName: {
-        type: String,
-        required: true,
-        lowercase: true
+        unique: true
     },
     email: {
         type: String,
-        required: true,
         unique: true
     },
-    password: {
-        type: String,
-        required: true,
-        minlength: 4,
-        unique: true
-    },
+    password: String,
     isAdmin:{
         type: Boolean,
         default: false 
     },
-    subscriptions: [{
-        type:Schema.Types.ObjectId, ref:'Subscription'
-    }]
+    // User informations
+    lastName: {
+        type: String,
+        lowercase: true
+    },
+    firstName: {
+        type: String,
+        lowercase: true
+    },
+    birthDate: {
+        type: Date,
+        min: '1950-01-01',
+        max: moment().format('YYYY-MM-DD')
+    },
+    address: String,
+    phone: String
 })
 
 module.exports = mongoose.model('User', userSchema);
