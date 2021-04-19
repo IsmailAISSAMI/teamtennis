@@ -96,6 +96,19 @@ exports.findOne = (req, res) => {
     .catch((err) => res.send(err));
 };
 
+exports.getUsers = (req, res) => {
+  User.find()
+  .then((data) => {
+    if (!data) {
+      res.status(404).send({
+        message: `Users not found!`,
+      });
+    }
+    res.send(data);
+  })
+  .catch((err) => res.send(err));
+};
+
 exports.update = async (req, res) => {
   req.body.password = bcrypt.hashSync(req.body.password, 10);
   const updates = Object.keys(req.body)

@@ -11,6 +11,7 @@ router.post('/users' , userRegistrationSchemaValidation,user.create);
 router.post('/users/login', user.login);
 // READ AND UPDATE USERS DATA
 router.get('/users/:id', verifyToken, user.findOne);
+router.get('/users/', user.getUsers);
 router.patch('/users/:id', verifyToken, userUpdateSchemaValidation, user.update);
 
 module.exports = router;
